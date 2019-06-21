@@ -11,6 +11,8 @@ void MineSweeper::initGame(){
     
     auto mines_pos = generateMinesPos();
     createField(mines_pos);
+    is_firsthand = true;
+    is_gameover = is_gameclear = false;
 }
 
 std::vector< std::pair<int, int> > MineSweeper::generateMinesPos(){
@@ -66,7 +68,14 @@ void MineSweeper::createField(std::vector< std::pair<int, int> > &mines_pos){
     }
 }
 
-bool MineSweeper::isGameOver(const int y, const int x, const bool is_firsthand){
+void MineSweeper::openCell(const int y, const int x){
+    is_gameover = isGameOver(y, x);
+    is_firsthand = false;
+    openCell(y, x, is_gameover);
+    is_gameclear = isGameClear();
+}
+
+bool MineSweeper::isGameOver(const int y, const int x){
     if(field[y][x] != MINE) return false;
     
     if(is_firsthand){
@@ -150,4 +159,9 @@ bool MineSweeper::isGameClear(){
         }
     }
     return true;
+}
+
+GameData MineSweeper::getGameData(){
+    GameData data(field, is_opened, is_gameover, is_gameclear);
+    return data;
 }
