@@ -134,6 +134,9 @@ void MineSweeper::openCell(const int y, const int x, const bool is_gameover){
         return;
     }
     
+    // yとxがフィールド外
+    if(y < 0 || y >= height || x < 0 || x >= width) return;
+    
     // 既に開けられていた場合
     if(is_opened[y][x]) return;
     
@@ -162,6 +165,5 @@ bool MineSweeper::isGameClear(){
 }
 
 GameData MineSweeper::getGameData(){
-    GameData data(field, is_opened, is_gameover, is_gameclear);
-    return data;
+    return GameData(field, is_opened, is_gameover, is_gameclear);
 }
