@@ -7,13 +7,16 @@ constexpr const int MINE = -1;
 struct GameData{
     std::vector< std::vector<int> > field;
     std::vector< std::vector<bool> > is_opened;
+    std::vector< std::vector<bool> > is_flag_placed;
     bool is_gameover, is_gameclear;
     
     GameData(){};
     GameData(std::vector< std::vector<int> > &field,
              std::vector< std::vector<bool> > &is_opened,
+             std::vector< std::vector<bool> > &is_flag_placed,
              bool is_gameover, bool is_gameclear) : field(field),
                                                     is_opened(is_opened),
+                                                    is_flag_placed(is_flag_placed),
                                                     is_gameover(is_gameover),
                                                     is_gameclear(is_gameclear){};
 };
@@ -26,6 +29,7 @@ private:
     bool is_gameover, is_gameclear;
     std::vector< std::vector<int> > field;
     std::vector< std::vector<bool> > is_opened; // そのマスが開かれたかどうか
+    std::vector< std::vector<bool> > is_flag_placed; // そのマスに旗が置かれているか
     
     std::vector< std::pair<int, int> > generateMinesPos();
     void createField(std::vector< std::pair<int, int> > &mines_pos);
@@ -38,6 +42,7 @@ private:
 public:
     MineSweeper(const int height, const int width, const int mine_num);
     void initGame(); // ゲームの初期化
-    void openCell(const int y, const int x); // (y, x)のマスを開く
+    int openCell(const int y, const int x); // (y, x)のマスを開き、0を返す　旗が置かれていたら -1 を返す
+    void putFlag(const int y, const int x); // (y, x)のマスに旗を置く(既に置いていたら取り除く)
     GameData getGameData(); // フィールドの情報とゲームオーバーorクリアしたかの情報を得る
 };

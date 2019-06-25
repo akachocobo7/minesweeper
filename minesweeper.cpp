@@ -42,6 +42,7 @@ std::vector< std::pair<int, int> > MineSweeper::generateMinesPos(){
 void MineSweeper::createField(std::vector< std::pair<int, int> > &mines_pos){
     field.assign(height, std::vector<int>(width, 0));
     is_opened.assign(height, std::vector<bool>(width, false));
+    is_flag_placed.assign(height, std::vector<bool>(width, false));
     
     for(const auto &pos : mines_pos){
         int y = pos.first, x = pos.second;
@@ -68,11 +69,18 @@ void MineSweeper::createField(std::vector< std::pair<int, int> > &mines_pos){
     }
 }
 
-void MineSweeper::openCell(const int y, const int x){
+int MineSweeper::openCell(const int y, const int x){
     is_gameover = isGameOver(y, x);
     is_firsthand = false;
+    if(is_flag_placed[y][x]) return -1;
     openCell(y, x, is_gameover);
     is_gameclear = isGameClear();
+    return 0;
+}
+
+void MineSweeper::putFlag(const int y, const int x){
+    if(is_opened[y][x]) return;
+    is_flag_placed[y][x] = !is_flag_placed[y][x];
 }
 
 bool MineSweeper::isGameOver(const int y, const int x){
@@ -131,6 +139,7 @@ void MineSweeper::openCell(const int y, const int x, const bool is_gameover){
     if(is_gameover){
         // 全てマスを開く
         is_opened.assign(height, std::vector<bool>(width, true));
+        is_flag_placed.assign(height, std::vector<bool>(width, false));
         return;
     }
     
@@ -141,6 +150,8 @@ void MineSweeper::openCell(const int y, const int x, const bool is_gameover){
     if(is_opened[y][x]) return;
     
     is_opened[y][x] = true;
+    is_flag_placed[y][x] = false;
+    
     // 空白マスなら再帰で8近傍のマスも開ける
     if(field[y][x] == 0){
         // 8近傍を探索する
@@ -165,5 +176,5 @@ bool MineSweeper::isGameClear(){
 }
 
 GameData MineSweeper::getGameData(){
-    return GameData(field, is_opened, is_gameover, is_gameclear);
+    return GameData(field, is_opened, is_flag_placed, is_gameover, is_gameclear);
 }
