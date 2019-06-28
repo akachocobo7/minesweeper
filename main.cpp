@@ -1,6 +1,5 @@
-#include <ncurses.h>
-#include <unistd.h>
 #include "game.hpp"
+#include "title.hpp"
 
 
 bool checkCommandArg(int argc, char *argv[], int &height, int &width, int &mine_num);
@@ -54,7 +53,5 @@ int main(int argc, char *argv[]){
         exit(1);
     }
     
-    initscr(); // ncursesの初期化
-    mainGame(height, width, mine_num);
-    endwin(); // ncurses終了
+    viewTitle(height, width, mine_num);
 }

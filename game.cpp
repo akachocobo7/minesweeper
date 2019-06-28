@@ -6,6 +6,8 @@ void mainGame(const int height, const int width, const int mine_num){
     
     game.initGame();
     
+    clear();
+    echo();
     for(;;){
         GameData data = game.getGameData();
         viewGame(data, height, width);
