@@ -1,5 +1,7 @@
 #include "game.hpp"
 #include "title.hpp"
+#include <cstdio>
+#include <cstdlib>
 
 
 bool checkCommandArg(int argc, char *argv[], int &height, int &width, int &mine_num);
