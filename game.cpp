@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include <ncurses.h>
+#include <unistd.h>
 
 void mainGame(const int height, const int width, const int mine_num){
     MineSweeper game(height, width, mine_num);
@@ -12,13 +13,24 @@ void mainGame(const int height, const int width, const int mine_num){
     for(;;){
         GameData data = game.getGameData();
         viewGame(data, height, width);
-        if(data.is_gameover || data.is_gameclear) break;
+        if(data.is_gameover){
+            mvprintw(height + 8, 10, "GAME OVER");
+            refresh();
+            sleep(3);
+            break;
+        }
+        if(data.is_gameclear){
+            mvprintw(height + 8, 8, "GAME CLEAR!!!");
+            refresh();
+            sleep(3);
+            break;
+        }
         const auto input = inputProcess(height, width);
         const int op = input.op, y = input.y, x = input.x;
         if(input.op < 1 || input.op > 2 ||
            input.x < 1 || input.x > width ||
            input.y < 1 || input.y > height){
-            // printw("入力が不正です。\n"); macOSだと日本語が表示できない
+            // printw("入力が不正です。\n");
             mvprintw(2, 1, "out\n");
             continue;
         }
@@ -110,4 +122,5 @@ void viewGame(GameData &data, const int height, const int width){
         }
         printw("\n ");
     }
+    refresh();
 }
