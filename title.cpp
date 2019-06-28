@@ -2,7 +2,7 @@
 #include "game.hpp"
 #include <ncurses.h>
 #include <array>
-#include <string>
+#include <string.h>
 
 
 void viewTitle(int height, int width, int mine_num);
@@ -21,10 +21,10 @@ void viewTitle(int height, int width, int mine_num){
     for(;;){
         clear();
         
-        std::string title_msg = "minesweeper";
-        mvprintw(y / 4, x / 2 - title_msg.size(), "%s", title_msg);
+        char title_msg[] = "minesweeper";
+        mvprintw(y / 4, x / 2 - strlen(title_msg), "%s", title_msg);
     
-        std::array< std::string, 3 > menu_msg = {
+        std::array< char[6], 3 > menu_msg = {
             "Start",
             "help",
             "Exit"
