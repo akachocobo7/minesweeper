@@ -1,7 +1,6 @@
 #include "minesweeper.hpp"
 #include <vector>
 #include <utility>
-#include <tuple>
 
 struct inputData{
     int op, y, x;
