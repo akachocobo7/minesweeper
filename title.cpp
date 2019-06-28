@@ -17,12 +17,14 @@ void viewTitle(int height, int width, int mine_num){
     
     keypad(stdscr, TRUE); // カーソルキーを利用
     
+    curs_set(0); //カーソルを非表示
+    
     int cur = 0; // カーソルの位置    
     for(;;){
         clear();
         
         char title_msg[] = "minesweeper";
-        mvprintw(y / 4, x / 2 - strlen(title_msg), "%s", title_msg);
+        mvprintw(y / 4, x / 2 - strlen(title_msg) / 2 - 2, "%s", title_msg);
     
         std::array< char[6], 3 > menu_msg = {
             "Start",
@@ -37,7 +39,7 @@ void viewTitle(int height, int width, int mine_num){
         
         refresh();
         
-        noecho();
+        noecho(); // 入力文字を非表示にする
         
         int ch = getch();
         if(ch == KEY_UP){

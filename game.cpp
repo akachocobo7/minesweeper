@@ -7,7 +7,8 @@ void mainGame(const int height, const int width, const int mine_num){
     game.initGame();
     
     clear();
-    echo();
+    echo(); // 入力文字を表示するようにする
+    curs_set(1); // カーソルを表示
     for(;;){
         GameData data = game.getGameData();
         viewGame(data, height, width);
