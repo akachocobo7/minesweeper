@@ -1,0 +1,6 @@
+There are several landmines in the field.
+If you open the cell where the land mine exists, you lose.
+It will win if we open all cells where no land mine exists.
+Enter "1 y x" to open the cell in the y-th row and the x-th column.
+You can enter "2 y x" to mark the cell in row y x column
+so that you do not accidentally open it.

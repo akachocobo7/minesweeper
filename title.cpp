@@ -3,6 +3,7 @@
 #include <ncurses.h>
 #include <array>
 #include <string.h>
+#include <unistd.h>
 
 
 void viewTitle(int height, int width, int mine_num);
@@ -55,7 +56,7 @@ void viewTitle(int height, int width, int mine_num){
                 mainGame(height, width, mine_num);
             }
             if(cur == 1){
-                
+                viewHelp();
             }
             if(cur == 2){
                 break;
@@ -68,5 +69,33 @@ void viewTitle(int height, int width, int mine_num){
 
 
 void viewHelp(){
+    int y, x;
+    getmaxyx(stdscr, y, x); // 端末の横幅と縦幅を取得
     
+    clear();
+    
+    FILE *fp;
+    if((fp = fopen("help.txt", "r")) == NULL){
+        char error_msg[] = "There is no \"help.txt\".";
+        mvprintw(y / 2, x / 2 - strlen(error_msg) / 2 - 1, "%s", error_msg);
+        refresh();
+        sleep(3);
+        return;
+    }
+    
+    char help_title[] = "How to play Minesweeper";
+    mvprintw(y / 4 - 1, x / 2 - strlen(help_title) / 2 - 1, "%s", help_title);
+    char text[1024];
+    int line = 0;
+    while(fgets(text, 1024, fp) != NULL){
+        mvprintw(y / 4 + line, x / 8, "%s", text);
+        line++;
+    }
+    char help_msg[] = "Return to title with z key.";
+    mvprintw(y / 4 + line + 1, x / 2 - strlen(help_msg) / 2 - 1, "%s", help_msg);
+    
+    int ch = ' ';
+    while(ch != 'z'){
+        ch = getch();
+    }
 }

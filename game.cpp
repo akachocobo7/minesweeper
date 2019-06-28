@@ -35,7 +35,7 @@ void mainGame(const int height, const int width, const int mine_num){
 inputData inputProcess(const int height, const int width){
     for(;;){
         mvprintw(1, 1, "please input: ");
-        char s[10000] = {}; getstr(s);
+        char s[256] = {}; getstr(s);
         const auto input = split(s);
         erase(); // 入力文字を消去
         return input;
