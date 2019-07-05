@@ -96,25 +96,32 @@ inputData split(char s[]){
 }
 
 void viewGame(GameData &data, const int height, const int width){
-    move(4, 1);
+    const int begin_y = 4, begin_x = 0;
+    
+    move(begin_y, begin_x + 4);
+    for(int x = 0; x < width; x++){
+        printw("%3d", x + 1);
+    }
+    
     for(int y = 0; y < height; y++){
+        move(begin_y + 2 + y, begin_x);
+        printw("%3d ", y + 1);
         for(int x = 0; x < width; x++){
             if(data.is_flag_placed[y][x]){
-                printw(" f");
+                printw("  f");
             }
             else if(data.is_opened[y][x]){
                 if(data.field[y][x] == MINE){
-                    printw(" #");
+                    printw("  #");
                 }
                 else{
-                    printw(" %d", data.field[y][x]);
+                    printw("%3d", data.field[y][x]);
                 }
             }
             else{
-                printw("[]");
+                printw(" []");
             }
         }
-        printw("\n ");
     }
     if(data.is_gameover){
         mvprintw(height + 8, 10, "GAME OVER");
