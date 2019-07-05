@@ -18,9 +18,9 @@ void viewTitle(int height, int width, int mine_num){
     
     keypad(stdscr, TRUE); // カーソルキーを利用
     
-    int cur = 0; // カーソルの位置    
+    int cur = 0; // カーソルの位置
+    curs_set(0); //カーソルを非表示
     for(;;){
-        curs_set(0); //カーソルを非表示
         clear();
         
         char title_msg[] = "minesweeper";

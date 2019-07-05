@@ -175,6 +175,7 @@ bool MineSweeper::isGameClear(){
     }
     // 全てのマスを開く
     is_opened.assign(height, std::vector<bool>(width, true));
+    is_flag_placed.assign(height, std::vector<bool>(width, false));
     return true;
 }
 

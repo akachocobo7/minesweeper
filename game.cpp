@@ -9,23 +9,17 @@ void mainGame(const int height, const int width, const int mine_num){
     
     clear();
     echo(); // 入力文字を表示するようにする
-    curs_set(1); // カーソルを表示
     for(;;){
         GameData data = game.getGameData();
         viewGame(data, height, width);
-        if(data.is_gameover){
-            mvprintw(height + 8, 10, "GAME OVER");
-            refresh();
+        if(data.is_gameover || data.is_gameclear){
             sleep(3);
             break;
         }
-        if(data.is_gameclear){
-            mvprintw(height + 8, 8, "GAME CLEAR!!!");
-            refresh();
-            sleep(3);
-            break;
-        }
+        curs_set(1); // カーソルを表示
         const auto input = inputProcess(height, width);
+        curs_set(0); // カーソルを非表示
+        erase(); // 入力文字を消去
         const int op = input.op, y = input.y, x = input.x;
         if(input.op < 1 || input.op > 2 ||
            input.x < 1 || input.x > width ||
@@ -38,7 +32,8 @@ void mainGame(const int height, const int width, const int mine_num){
             if(game.openCell(y - 1, x - 1) == -1){
                 mvprintw(2, 1, "flag placed.\n");
             }
-        }else{
+        }
+        else{
             game.putFlag(y - 1, x - 1);
         }
     }
@@ -49,7 +44,6 @@ inputData inputProcess(const int height, const int width){
         mvprintw(1, 1, "please input: ");
         char s[256] = {}; getstr(s);
         const auto input = split(s);
-        erase(); // 入力文字を消去
         return input;
     }
 }
@@ -121,6 +115,12 @@ void viewGame(GameData &data, const int height, const int width){
             }
         }
         printw("\n ");
+    }
+    if(data.is_gameover){
+        mvprintw(height + 8, 10, "GAME OVER");
+    }
+    if(data.is_gameclear){
+        mvprintw(height + 8, 8, "GAME CLEAR!!!");
     }
     refresh();
 }
