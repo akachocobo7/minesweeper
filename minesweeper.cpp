@@ -137,7 +137,7 @@ void MineSweeper::moveMinePos(int y, int x){
 
 void MineSweeper::openCell(const int y, const int x, const bool is_gameover){
     if(is_gameover){
-        // 全てマスを開く
+        // 全てのマスを開く
         is_opened.assign(height, std::vector<bool>(width, true));
         is_flag_placed.assign(height, std::vector<bool>(width, false));
         return;
@@ -172,6 +172,8 @@ bool MineSweeper::isGameClear(){
             if(field[y][x] == MINE && is_opened[y][x]) return false;
         }
     }
+    // 全てのマスを開く
+    is_opened.assign(height, std::vector<bool>(width, true));
     return true;
 }
 
