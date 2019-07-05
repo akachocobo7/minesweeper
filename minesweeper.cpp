@@ -24,10 +24,11 @@ std::vector< std::pair<int, int> > MineSweeper::generateMinesPos(){
     }
     
     std::vector< std::pair<int, int> > res; // 地雷の位置
-    std::random_device rnd; // シード生成機
-    std::mt19937 mt(rnd()); // メルセンヌツイスター 引数は初期シード
+    std::random_device seed_rnd; // シード生成機
+    std::mt19937 mt(seed_rnd()); // メルセンヌツイスター 引数は初期シード
     for(int i = 0; i < mine_num; i++){
-        const int idx = mt() % vec.size();
+        std::uniform_int_distribution<> rnd(0, (int)vec.size() - 1); // [0, vec.size())の一様乱数
+        const int idx = rnd(mt) % vec.size();
         const int y = vec[idx].first, x = vec[i].second;
         res.push_back({y, x});
         
