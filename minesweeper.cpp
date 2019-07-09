@@ -71,9 +71,9 @@ void MineSweeper::createField(std::vector< std::pair<int, int> > &mines_pos){
 }
 
 int MineSweeper::openCell(const int y, const int x){
+    if(is_flag_placed[y][x]) return -1;
     is_gameover = isGameOver(y, x);
     is_firsthand = false;
-    if(is_flag_placed[y][x]) return -1;
     openCell(y, x, is_gameover);
     is_gameclear = isGameClear();
     return 0;
