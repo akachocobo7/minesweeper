@@ -7,6 +7,5 @@ struct inputData{
 };
 
 void mainGame(const int height, const int width, const int mine_num);
-inputData inputProcess(const int height, const int width); // 入力処理
-inputData split(char s[]);
+inputData inputProcess(const int height, const int width, int &cur_y, int &cur_x); // 入力処理
 void viewGame(GameData &data, const int height, const int width); // ゲーム画面描画
