@@ -50,7 +50,7 @@ void viewTitle(int height, int width, int mine_num){
             cur++;
             cur %= menu_msg.size();
         }
-        if(ch == '\n'){
+        if(ch == 'z'){
             if(cur == 0){
                 mainGame(height, width, mine_num);
             }
