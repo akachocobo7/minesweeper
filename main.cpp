@@ -26,6 +26,7 @@ bool checkCommandArg(int argc, char *argv[], int &height, int &width, int &mine_
                     return false;
                 }
             }
+            if(num == 0) return false;
             
             switch (i) {
             case 1:
