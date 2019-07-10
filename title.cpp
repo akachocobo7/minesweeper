@@ -35,6 +35,9 @@ void viewTitle(int height, int width, int mine_num){
         for(int i = 0; i < menu_msg.size(); i++){
             mvprintw(y / 2 + i, x / 2 - 3, "%s", menu_msg[i]);
         }
+        char help_msg[] = "move: ↑↓ key  select: z";
+        mvprintw(y / 2 + menu_msg.size() + 2, x / 2 - strlen(help_msg) / 2 - 2, "%s", help_msg);
+        
         mvprintw(y / 2 + cur, x / 2 - 6, "->");
         
         refresh();
@@ -83,15 +86,15 @@ void viewHelp(){
     }
     
     char help_title[] = "How to play Minesweeper";
-    mvprintw(y / 4 - 1, x / 2 - strlen(help_title) / 2 - 1, "%s", help_title);
+    mvprintw(y / 4, x / 2 - strlen(help_title) / 2 - 1, "%s", help_title);
     char text[1024];
     int line = 0;
     while(fgets(text, 1024, fp) != NULL){
-        mvprintw(y / 4 + line, x / 8, "%s", text);
+        mvprintw(y / 4 + 2 + line, x / 8, "%s", text);
         line++;
     }
     char help_msg[] = "Return to title with z key.";
-    mvprintw(y / 4 + line + 1, x / 2 - strlen(help_msg) / 2 - 1, "%s", help_msg);
+    mvprintw(y / 4 + 2 + line + 1, x / 2 - strlen(help_msg) / 2 - 1, "%s", help_msg);
     
     int ch = ' ';
     while(ch != 'z'){
