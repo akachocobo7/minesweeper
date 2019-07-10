@@ -28,7 +28,7 @@ void viewTitle(int height, int width, int mine_num){
     
         std::array< char[6], 3 > menu_msg = {
             "Start",
-            "help",
+            "Help",
             "Exit"
         };
     
