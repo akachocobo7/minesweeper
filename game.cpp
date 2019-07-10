@@ -1,6 +1,14 @@
 #include "game.hpp"
 #include <ncurses.h>
 #include <unistd.h>
+#include <cstring>
+
+void getBeginDrawCell(int &begin_y, int &begin_x, int height, int width){
+    int screen_y, screen_x;
+    getmaxyx(stdscr, screen_y, screen_x); // 端末の横幅と縦幅を取得
+    begin_y = screen_y / 2 - height / 2 + 1;
+    begin_x = screen_x / 2 - width * 3 / 2 - 1;
+}
 
 void mainGame(const int height, const int width, const int mine_num){
     MineSweeper game(height, width, mine_num);
@@ -15,14 +23,24 @@ void mainGame(const int height, const int width, const int mine_num){
         GameData data = game.getGameData();
         viewGame(data, height, width);
         if(data.is_gameover || data.is_gameclear){
-            sleep(3); // ゲーム クリア（オーバー）画面を3秒表示してタイトルへ
+            for(;;){
+                int ch = getch();
+                if(ch == 'z'){
+                    break;
+                }
+            }
             break;
         }
         const auto input = inputProcess(height, width, cur_y, cur_x);
         const int op = input.op, y = input.y, x = input.x;
+        clear();
         if(op == 1){
             if(game.openCell(y, x) == -1){
-                mvprintw(2, 1, "flag placed.\n");
+                int begin_y, begin_x;
+                getBeginDrawCell(begin_y, begin_x, height, width);
+                
+                char msg[] = "flag placed.";
+                mvprintw(begin_y + height + 1, begin_x + width / 2 * 3 - strlen(msg) / 2, "%s", msg);
             }
         }
         else{
@@ -32,15 +50,13 @@ void mainGame(const int height, const int width, const int mine_num){
 }
 
 inputData inputProcess(const int height, const int width, int &cur_y, int &cur_x){
-    int screen_y, screen_x;
-    getmaxyx(stdscr, screen_y, screen_x); // 端末の横幅と縦幅を取得
-    const int begin_y = screen_y / 2 - height / 2 - 1;
-    const int begin_x = screen_x / 2 - width * 3 / 2 - 1 - 3;
+    int begin_y, begin_x;
+    getBeginDrawCell(begin_y, begin_x, height, width);
     
     curs_set(1); // カーソルを表示
     
     for(;;){
-        move(begin_y + cur_y + 2, begin_x + (cur_x + 2) * 3);
+        move(begin_y + cur_y, begin_x + cur_x * 3 + 2);
         int ch = getch();
         if(ch == KEY_UP){
             cur_y--;
@@ -72,18 +88,16 @@ inputData inputProcess(const int height, const int width, int &cur_y, int &cur_x
 
 
 void viewGame(GameData &data, const int height, const int width){
-    int screen_y, screen_x;
-    getmaxyx(stdscr, screen_y, screen_x); // 端末の横幅と縦幅を取得
-    const int begin_y = screen_y / 2 - height / 2 - 1;
-    const int begin_x = screen_x / 2 - width * 3 / 2 - 1 - 3;
+    int begin_y, begin_x;
+    getBeginDrawCell(begin_y, begin_x, height, width);
     
-    move(begin_y, begin_x + 4);
+    move(begin_y - 2, begin_x);
     for(int x = 0; x < width; x++){
         printw("%3d", x + 1);
     }
     
     for(int y = 0; y < height; y++){
-        move(begin_y + 2 + y, begin_x);
+        move(begin_y + y, begin_x - 4);
         printw("%3d ", y + 1);
         for(int x = 0; x < width; x++){
             if(data.is_flag_placed[y][x]){
@@ -103,10 +117,16 @@ void viewGame(GameData &data, const int height, const int width){
         }
     }
     if(data.is_gameover){
-        mvprintw(height + 8, 10, "GAME OVER");
+        char msg[] = "GAME OVER";
+        mvprintw(begin_y + height + 1, begin_x + width / 2 * 3 - strlen(msg) / 2, "%s", msg);
+        char msg2[] = "Return to title with z key.";
+        mvprintw(begin_y + height + 3, begin_x + width / 2 * 3 - strlen(msg2) / 2, "%s", msg2);
     }
     if(data.is_gameclear){
-        mvprintw(height + 8, 8, "GAME CLEAR!!!");
+        char msg[] = "GAME CLEAR!!!";
+        mvprintw(begin_y + height + 1, begin_x + width / 2 * 3 - strlen(msg) / 2, "%s", msg);
+        char msg2[] = "Return to title with z key.";
+        mvprintw(begin_y + height + 3, begin_x + width / 2 * 3 - strlen(msg2) / 2, "%s", msg2);
     }
     refresh();
 }
