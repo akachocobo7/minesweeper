@@ -29,7 +29,7 @@ std::vector< std::pair<int, int> > MineSweeper::generateMinesPos(){
     for(int i = 0; i < mine_num; i++){
         std::uniform_int_distribution<> rnd(0, (int)vec.size() - 1); // [0, vec.size())の一様乱数
         const int idx = rnd(mt) % vec.size();
-        const int y = vec[idx].first, x = vec[i].second;
+        const int y = vec[idx].first, x = vec[idx].second;
         res.push_back({y, x});
         
         // 置いた座標を候補から消す
