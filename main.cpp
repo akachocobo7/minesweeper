@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
     int height = 10, width = 10, mine_num = 10; // 縦幅、横幅、地雷の数の初期値
     
     if(!checkCommandArg(argc, argv, height, width, mine_num)){
-        fprintf(stderr, "引数が不正です。\n");
+        fprintf(stderr, "引数が正しくありません。\n");
         exit(1);
     }
     
