@@ -129,7 +129,7 @@ void MineSweeper::moveMinePos(int y, int x){
     
     for(int i = 0; i < 8; i++){
         const int yy = new_pos_y + dy[i], xx =  new_pos_x + dx[i];
-        if(yy < 0 || yy >= height || xx < 0 || xx >= width) continue;
+        if(yy < 0 || yy >= height || xx < 0 || xx >= width || (yy == y && xx == x)) continue;
         if(field[yy][xx] != MINE){
             field[yy][xx]++;
         }
