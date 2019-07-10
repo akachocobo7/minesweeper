@@ -43,6 +43,8 @@ bool checkCommandArg(int argc, char *argv[], int &height, int &width, int &mine_
             }
         }
     }
+    // フィールドのマスの数以上に地雷がある
+    if(height * width <= mine_num) return false;
     
     return true;
 }
