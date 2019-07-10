@@ -80,8 +80,13 @@ void viewHelp(){
     if((fp = fopen("help.txt", "r")) == NULL){
         char error_msg[] = "There is no \"help.txt\".";
         mvprintw(y / 2, x / 2 - strlen(error_msg) / 2 - 1, "%s", error_msg);
+        char help_msg[] = "Return to title with z key.";
+        mvprintw(y / 2 + 3, x / 2 - strlen(help_msg) / 2 - 1, "%s", help_msg);
         refresh();
-        sleep(3);
+        int ch = getch();
+        while(ch != 'z'){
+            ch = getch();
+        }
         return;
     }
     
@@ -96,7 +101,7 @@ void viewHelp(){
     char help_msg[] = "Return to title with z key.";
     mvprintw(y / 4 + 2 + line + 1, x / 2 - strlen(help_msg) / 2 - 1, "%s", help_msg);
     
-    int ch = ' ';
+    int ch = getch();
     while(ch != 'z'){
         ch = getch();
     }
