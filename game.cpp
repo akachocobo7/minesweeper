@@ -3,12 +3,6 @@
 #include <unistd.h>
 #include <cstring>
 
-void getBeginDrawCell(int &begin_y, int &begin_x, int height, int width){
-    int screen_y, screen_x;
-    getmaxyx(stdscr, screen_y, screen_x); // 端末の横幅と縦幅を取得
-    begin_y = screen_y / 2 - height / 2 + 1;
-    begin_x = screen_x / 2 - width * 3 / 2 - 1;
-}
 
 void mainGame(const int height, const int width, const int mine_num){
     MineSweeper game(height, width, mine_num);
@@ -129,4 +123,11 @@ void viewGame(GameData &data, const int height, const int width){
         mvprintw(begin_y + height + 3, begin_x + width / 2 * 3 - strlen(msg2) / 2, "%s", msg2);
     }
     refresh();
+}
+
+void getBeginDrawCell(int &begin_y, int &begin_x, int height, int width){
+    int screen_y, screen_x;
+    getmaxyx(stdscr, screen_y, screen_x); // 端末の横幅と縦幅を取得
+    begin_y = screen_y / 2 - height / 2 + 1;
+    begin_x = screen_x / 2 - width * 3 / 2 - 1;
 }
