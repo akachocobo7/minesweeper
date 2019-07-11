@@ -59,4 +59,6 @@ int main(int argc, char *argv[]){
     }
     
     viewTitle(height, width, mine_num);
+    
+    return 0;
 }
