@@ -21,22 +21,23 @@ void viewTitle(int height, int width, int mine_num){
     int cur = 0; // カーソルの位置
     curs_set(0); //カーソルを非表示
     for(;;){
-        clear();
+        clear(); // 画面をクリア
         
-        char title_msg[] = "minesweeper";
-        mvprintw(y / 4, x / 2 - strlen(title_msg) / 2 - 2, "%s", title_msg);
+        char title_name[] = "minesweeper"; // タイトル名
+        mvprintw(y / 4, x / 2 - strlen(title_name) / 2 - 2, "%s", title_name);
     
-        std::array< char[6], 3 > menu_msg = {
+        // メニュー名
+        std::array< char[6], 3 > menu_name = {
             "Start",
             "Help",
             "Exit"
         };
-    
-        for(int i = 0; i < menu_msg.size(); i++){
-            mvprintw(y / 2 + i, x / 2 - 3, "%s", menu_msg[i]);
+        for(int i = 0; i < menu_name.size(); i++){
+            mvprintw(y / 2 + i, x / 2 - 3, "%s", menu_name[i]);
         }
-        char help_msg[] = "move: ↑↓ key  select: z";
-        mvprintw(y / 2 + menu_msg.size() + 2, x / 2 - strlen(help_msg) / 2 - 2, "%s", help_msg);
+        
+        char help_msg[] = "move: ↑↓ key  select: z"; // ヘルプメッセージ
+        mvprintw(y / 2 + menu_name.size() + 2, x / 2 - strlen(help_msg) / 2 - 2, "%s", help_msg);
         
         mvprintw(y / 2 + cur, x / 2 - 6, "->");
         
@@ -47,11 +48,13 @@ void viewTitle(int height, int width, int mine_num){
         int ch = getch();
         if(ch == KEY_UP){
             cur--;
-            if(cur < 0) cur += menu_msg.size();
+            // 上端より上に行ったら下端にする
+            if(cur < 0) cur += menu_name.size();
         }
         if(ch == KEY_DOWN){
             cur++;
-            cur %= menu_msg.size();
+            // 下端より下に行ったら上端にする
+            cur %= menu_name.size();
         }
         if(ch == 'z'){
             if(cur == 0){

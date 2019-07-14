@@ -13,22 +13,33 @@ void mainGame(const int height, const int width, const int mine_num){
     
     int cur_y = 0, cur_x = 0; // 入力時のカーソル位置
     
+    // ゲーム中は常にループ
     for(;;){
+        // ゲーム状況を取得
         GameData data = game.getGameData();
+        // ゲーム画面を表示
         viewGame(data, height, width);
+        
+        // ゲームオーバー　もしくは　ゲームクリアしたらこのループから抜ける
         if(data.is_gameover || data.is_gameclear){
             for(;;){
                 int ch = getch();
+                // zキーでタイトルへ
                 if(ch == 'z'){
                     break;
                 }
             }
             break;
         }
+        
+        // 入力処理
         const auto input = inputProcess(height, width, cur_y, cur_x);
         const int op = input.op, y = input.y, x = input.x;
+        
         clear();
+        
         if(op == 1){
+            // フラグが置いてある所を開けようとした時はエラーメッセージを出力
             if(game.openCell(y, x) == -1){
                 int begin_y, begin_x;
                 getBeginDrawCell(begin_y, begin_x, height, width);
@@ -110,17 +121,17 @@ void viewGame(GameData &data, const int height, const int width){
             }
         }
     }
+    
+    char help_msg[] = "Return to title with z key.";
     if(data.is_gameover){
         char msg[] = "GAME OVER";
         mvprintw(begin_y + height + 1, begin_x + width / 2 * 3 - strlen(msg) / 2, "%s", msg);
-        char msg2[] = "Return to title with z key.";
-        mvprintw(begin_y + height + 3, begin_x + width / 2 * 3 - strlen(msg2) / 2, "%s", msg2);
+        mvprintw(begin_y + height + 3, begin_x + width / 2 * 3 - strlen(help_msg) / 2, "%s", help_msg);
     }
     if(data.is_gameclear){
         char msg[] = "GAME CLEAR!!!";
         mvprintw(begin_y + height + 1, begin_x + width / 2 * 3 - strlen(msg) / 2, "%s", msg);
-        char msg2[] = "Return to title with z key.";
-        mvprintw(begin_y + height + 3, begin_x + width / 2 * 3 - strlen(msg2) / 2, "%s", msg2);
+        mvprintw(begin_y + height + 3, begin_x + width / 2 * 3 - strlen(help_msg) / 2, "%s", help_msg);
     }
     refresh();
 }

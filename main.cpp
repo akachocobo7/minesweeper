@@ -12,12 +12,14 @@ bool checkCommandArg(int argc, char *argv[], int &height, int &width, int &mine_
     
     if(argc == 4){
         for(int i = 1; i <= 3; i++){
+            // 引数にハイフンを付けていないのはダメ
             if(argv[i][0] != '-'){
                 return false;
             }
             
             int num = 0;
             for(char* s = argv[i] + 1; *s != '\0'; s++){
+                // 数字かチェック
                 if('0' <= *s && *s <= '9'){
                     num *= 10;
                     num += *s - '0';
@@ -26,8 +28,10 @@ bool checkCommandArg(int argc, char *argv[], int &height, int &width, int &mine_
                     return false;
                 }
             }
+            // 0が指定されたらダメ
             if(num == 0) return false;
             
+            // 縦　横　地雷の数
             switch (i) {
             case 1:
                 height = num;

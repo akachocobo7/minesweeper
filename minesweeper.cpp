@@ -9,8 +9,11 @@ MineSweeper::MineSweeper(const int height, const int width, const int mine_num) 
 void MineSweeper::initGame(){
     assert(mine_num < height * width); // 地雷の数はフィールドに収まる数
     
+    // 地雷の位置を生成
     auto mines_pos = generateMinesPos();
+    // フィールドを生成
     createField(mines_pos);
+    
     is_firsthand = true;
     is_gameover = is_gameclear = false;
 }
@@ -71,11 +74,20 @@ void MineSweeper::createField(std::vector< std::pair<int, int> > &mines_pos){
 }
 
 int MineSweeper::openCell(const int y, const int x){
+    // フラグが置かれているか
     if(is_flag_placed[y][x]) return -1;
+    
+    // ゲームオーバーの判定
     is_gameover = isGameOver(y, x);
+    
     is_firsthand = false;
+    
+    // マスを開く
     openCell(y, x, is_gameover);
+    
+    // ゲームクリア判定
     is_gameclear = isGameClear();
+    
     return 0;
 }
 
@@ -113,6 +125,7 @@ void MineSweeper::moveMinePos(int y, int x){
     // 8近傍を探索する
     const int dy[8] = {-1, -1, -1, 0, 1, 1, 1, 0}; 
     const int dx[8] = {-1, 0, 1, 1, 1, 0, -1, -1};
+    
     // フィールドの数字マスを再計算
     int mine_cnt = 0;
     for(int i = 0; i < 8; i++){
